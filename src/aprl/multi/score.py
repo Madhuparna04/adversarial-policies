@@ -8,6 +8,7 @@ import os.path as osp
 import shutil
 import tempfile
 
+import ray
 from ray import tune
 from sacred import Experiment
 from sacred.observers import FileStorageObserver
@@ -31,7 +32,7 @@ make_configs(multi_score_ex)
 @multi_score_ex.config
 def default_config(score):
     spec = {  # experiment specification
-        "run_kwargs": {"resources_per_trial": {"cpu": math.ceil(score["num_env"] / 2)}},
+        "run_kwargs": {"resources_per_trial": {"cpu": math.ceil(score["num_env"] / 4)}},
         "config": {},
     }
     save_path = None  # path to save JSON results. If None, do not save.
@@ -69,6 +70,7 @@ def _remap_keys(d):
 @multi_score_ex.main
 def multi_score(score, save_path):
     f = None
+    print(score)
     try:
         tmp_path = None
         if save_path is not None:
@@ -77,7 +79,7 @@ def multi_score(score, save_path):
             fd, tmp_path = tempfile.mkstemp(prefix="multi_score")
             f = os.fdopen(fd, mode="w")
             save_path = tmp_path
-
+        print('here: ', score)
         analysis, exp_id = run(base_config=score)
         trials = analysis.trials
         additional_index_keys = score.get("index_keys", [])

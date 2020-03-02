@@ -20,7 +20,7 @@ for dir in normal victim_masked_init victim_masked_zero adversary_masked_init; d
 done
 
 ADVERSARY_PATHS=${OUT_ROOT}/normal/${TIMESTAMP}/best_adversaries.json
-python ${DIR}/highest_win_rate.py ${ADVERSARY_PATHS} --logdir $*
+python ${DIR}/highest_win_rate.py $1 --output_path ${ADVERSARY_PATHS}
 
 export ADVERSARY_PATHS=${ADVERSARY_PATHS}
 

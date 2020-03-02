@@ -10,6 +10,8 @@ import pkgutil
 from gym.spaces import Box
 from sacred import Experiment
 from sacred.observers import FileStorageObserver
+from sacred import SETTINGS
+SETTINGS['CAPTURE_MODE'] = 'sys'
 import stable_baselines
 from stable_baselines.common.vec_env.vec_normalize import VecNormalize
 import tensorflow as tf

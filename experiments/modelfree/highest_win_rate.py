@@ -89,8 +89,8 @@ def find_best(logdirs, episode_window):
             stats = get_stats(event_path=event_path, episode_window=episode_window)
             config = get_sacred_config(event_path)
             env_name = str(config['env_name'])
-            opp_index = int(config['embed_index'])
-            opp_type = str(config['embed_type'])
+            opp_index = int(config['victim_index'])
+            opp_type = str(config['victim_type'])
             # multi_score is not set up to handle multiple embedded agent types
             if opp_type != 'zoo' and config['load_policy']['type'] == 'zoo':
                 # Assuming that this case corresponds to a situation where we're finetuning a
@@ -98,7 +98,7 @@ def find_best(logdirs, episode_window):
                 # integer zoo policy we finetuned, rather than the full path of its adversary
                 zoo_path = str(config['load_policy']['path'])
             else:
-                zoo_path = str(config['embed_path'])
+                zoo_path = str(config['victim_path'])
             our_index = 1 - opp_index
             key = (env_name, opp_index, zoo_path)
             our_winrate = stats[f'game_win{our_index}']

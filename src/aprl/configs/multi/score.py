@@ -403,12 +403,14 @@ def make_configs(multi_score_ex):
             )
 
         if victims and opponents:
+            abc = [victims[1:-1]]
+            xyz = [opponents[1:-1]]
             spec = {
                 "config": {
                     PATHS_AND_TYPES: tune.grid_search(
                         _gen_configs(
-                            victim_fns=[_to_fn(cfg) for cfg in victims],
-                            opponent_fns=[_to_fn(cfg) for cfg in opponents],
+                            victim_fns=[_to_fn(cfg) for cfg in abc],
+                            opponent_fns=[_to_fn(cfg) for cfg in xyz],
                             envs=None if envs is None else envs,
                         )
                     ),
